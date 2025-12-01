@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="7" fill="#053445"/>
+
+  <!-- Simplified leaf for favicon -->
+  <g transform="translate(16, 16)">
+    <path d="M-6,-9 Q-9,-6 -9,0 Q-9,6 -6,9 Q-3,11 0,12 Q3,11 6,9 Q9,6 9,0 Q9,-6 6,-9 Q3,-11 0,-12 Q-3,-11 -6,-9 Z"
+          fill="#6DB4CD"/>
+    <line x1="0" y1="-12" x2="0" y2="12" stroke="#053445" stroke-width="1" opacity="0.3"/>
+  </g>
+</svg>

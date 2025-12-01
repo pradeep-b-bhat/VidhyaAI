@@ -1,0 +1,27 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="192" height="192" rx="42" fill="#053445"/>
+
+  <!-- Leaf Icon (Professional Design) -->
+  <g transform="translate(96, 96)">
+    <!-- Main leaf shape -->
+    <path d="M-20,-35 Q-30,-20 -30,0 Q-30,20 -20,35 Q-10,45 0,50 Q10,45 20,35 Q30,20 30,0 Q30,-20 20,-35 Q10,-45 0,-50 Q-10,-45 -20,-35 Z"
+          fill="#4B95AF" opacity="0.3"/>
+
+    <!-- Center leaf -->
+    <path d="M-15,-28 Q-22,-15 -22,0 Q-22,15 -15,28 Q-8,35 0,40 Q8,35 15,28 Q22,15 22,0 Q22,-15 15,-28 Q8,-35 0,-40 Q-8,-35 -15,-28 Z"
+          fill="#6DB4CD"/>
+
+    <!-- Leaf vein -->
+    <line x1="0" y1="-40" x2="0" y2="40" stroke="#053445" stroke-width="2" opacity="0.3"/>
+
+    <!-- Side veins -->
+    <path d="M0,-20 Q-8,-10 -10,0" stroke="#053445" stroke-width="1.5" opacity="0.2" fill="none"/>
+    <path d="M0,0 Q-8,10 -10,20" stroke="#053445" stroke-width="1.5" opacity="0.2" fill="none"/>
+    <path d="M0,-20 Q8,-10 10,0" stroke="#053445" stroke-width="1.5" opacity="0.2" fill="none"/>
+    <path d="M0,0 Q8,10 10,20" stroke="#053445" stroke-width="1.5" opacity="0.2" fill="none"/>
+  </g>
+
+  <!-- App Name -->
+  <text x="96" y="155" font-size="16" font-weight="700" text-anchor="middle" fill="#6DB4CD" font-family="-apple-system, system-ui, sans-serif">AyurvedaGPT</text>
+</svg>

@@ -11,7 +11,9 @@
       "Bash(npx expo install:*)",
       "Bash(netstat:*)",
       "Bash(findstr:*)",
-      "Bash(ipconfig:*)"
+      "Bash(ipconfig:*)",
+      "Bash(npm start)",
+      "Bash(npm run web:*)"
     ],
     "deny": [],
     "ask": []

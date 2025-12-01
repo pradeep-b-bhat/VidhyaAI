@@ -1,0 +1,48 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#053445;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#19647F;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="110" fill="url(#bgGradient)"/>
+
+  <!-- Leaf Icon (Large Professional Design) -->
+  <g transform="translate(256, 230)">
+    <!-- Outer glow -->
+    <ellipse cx="0" cy="0" rx="85" ry="110" fill="#4B95AF" opacity="0.15"/>
+
+    <!-- Main leaf shape - larger -->
+    <path d="M-50,-90 Q-75,-50 -75,0 Q-75,50 -50,90 Q-25,115 0,125 Q25,115 50,90 Q75,50 75,0 Q75,-50 50,-90 Q25,-115 0,-125 Q-25,-115 -50,-90 Z"
+          fill="#4B95AF" opacity="0.4"/>
+
+    <!-- Center leaf with gradient -->
+    <path d="M-40,-75 Q-60,-40 -60,0 Q-60,40 -40,75 Q-20,95 0,105 Q20,95 40,75 Q60,40 60,0 Q60,-40 40,-75 Q20,-95 0,-105 Q-20,-95 -40,-75 Z"
+          fill="#6DB4CD" filter="url(#shadow)"/>
+
+    <!-- Leaf stem/vein -->
+    <line x1="0" y1="-105" x2="0" y2="105" stroke="#053445" stroke-width="4" opacity="0.3"/>
+
+    <!-- Left side veins -->
+    <path d="M0,-60 Q-20,-40 -25,-15" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+    <path d="M0,-30 Q-20,-15 -30,0" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+    <path d="M0,0 Q-20,15 -30,30" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+    <path d="M0,30 Q-20,45 -25,65" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+
+    <!-- Right side veins -->
+    <path d="M0,-60 Q20,-40 25,-15" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+    <path d="M0,-30 Q20,-15 30,0" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+    <path d="M0,0 Q20,15 30,30" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+    <path d="M0,30 Q20,45 25,65" stroke="#053445" stroke-width="2.5" opacity="0.25" fill="none"/>
+  </g>
+
+  <!-- App Name -->
+  <text x="256" y="425" font-size="48" font-weight="700" text-anchor="middle" fill="#6DB4CD" font-family="-apple-system, system-ui, sans-serif" letter-spacing="1">AyurvedaGPT</text>
+  <text x="256" y="465" font-size="22" font-weight="500" text-anchor="middle" fill="#4B95AF" font-family="-apple-system, system-ui, sans-serif" letter-spacing="2">SMART PRESCRIPTION ASSISTANT</text>
+</svg>

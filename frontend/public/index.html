@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="AyurvedaGPT" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AyurvedaGPT" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#053445" />
+    <meta name="description" content="AI-powered Ayurvedic prescription assistant for doctors to reduce errors and streamline prescriptions" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-192.svg" />
+
+    <title>AyurvedaGPT - Smart Prescription Assistant</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      #root {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      /* Loading screen */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #053445;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .loader {
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+
+      .loading-text {
+        color: #6DB4CD;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .loading-subtext {
+        color: #4B95AF;
+        font-size: 14px;
+      }
+
+      /* Install button */
+      #install-button {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #053445;
+        color: white;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(5, 52, 69, 0.4);
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      #install-button:hover {
+        background-color: #19647F;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(5, 52, 69, 0.5);
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(100px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loader">🌿</div>
+      <div class="loading-text">AyurvedaGPT</div>
+      <div class="loading-subtext">Loading...</div>
+    </div>
+
+    <!-- App Root -->
+    <div id="root"></div>
+
+    <!-- Install Button -->
+    <button id="install-button">📱 Install App</button>
+
+    <!-- Service Worker Registration -->
+    <script>
+      // Remove loading screen when app loads
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(() => {
+              loadingScreen.style.display = 'none';
+            }, 500);
+          }
+        }, 1000);
+      });
+
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then((registration) => {
+              console.log('ServiceWorker registration successful:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('ServiceWorker registration failed:', error);
+            });
+        });
+      }
+
+      // PWA Install Prompt
+      let deferredPrompt;
+      const installButton = document.getElementById('install-button');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        // Stash the event so it can be triggered later
+        deferredPrompt = e;
+        // Show the install button
+        installButton.style.display = 'block';
+      });
+
+      installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          return;
+        }
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        // Clear the deferredPrompt
+        deferredPrompt = null;
+        // Hide the install button
+        installButton.style.display = 'none';
+      });
+
+      // Track when app is installed
+      window.addEventListener('appinstalled', () => {
+        console.log('AyurvedaGPT was installed');
+        installButton.style.display = 'none';
+      });
+    </script>
+  </body>
+</html>

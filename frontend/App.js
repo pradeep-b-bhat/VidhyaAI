@@ -15,8 +15,10 @@ import {
 import { Provider as PaperProvider } from 'react-native-paper';
 import PrescriptionScreen from './src/screens/PrescriptionScreen';
 import MedicineSearchScreen from './src/screens/MedicineSearchScreen';
+import SplashScreen from './src/components/SplashScreen';
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [currentScreen, setCurrentScreen] = useState('home');
   const [patientInfo, setPatientInfo] = useState({
     name: '',
@@ -35,10 +37,14 @@ export default function App() {
     setSelectedMedicines([]);
   };
 
+  if (showSplash) {
+    return <SplashScreen onFinish={() => setShowSplash(false)} />;
+  }
+
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="#297691" />
+        <StatusBar barStyle="light-content" backgroundColor="#053445" />
 
         {currentScreen === 'home' && (
           <HomeScreen
@@ -152,39 +158,37 @@ function HomeScreen({
           }
         />
 
-        <View style={styles.row}>
-          <TextInput
-            style={[styles.input, styles.halfInput]}
-            placeholder="Age *"
-            placeholderTextColor="#6DB4CD"
-            keyboardType="numeric"
-            value={patientInfo.age}
-            onChangeText={(text) =>
-              setPatientInfo({ ...patientInfo, age: text })
-            }
-          />
+        <TextInput
+          style={styles.input}
+          placeholder="Age *"
+          placeholderTextColor="#6DB4CD"
+          keyboardType="numeric"
+          value={patientInfo.age}
+          onChangeText={(text) =>
+            setPatientInfo({ ...patientInfo, age: text })
+          }
+        />
 
-          <View style={styles.genderContainer}>
-            {['Male', 'Female', 'Other'].map((gender) => (
-              <TouchableOpacity
-                key={gender}
+        <View style={styles.genderContainer}>
+          {['Male', 'Female', 'Other'].map((gender) => (
+            <TouchableOpacity
+              key={gender}
+              style={[
+                styles.genderButton,
+                patientInfo.gender === gender && styles.genderButtonActive,
+              ]}
+              onPress={() => setPatientInfo({ ...patientInfo, gender })}
+            >
+              <Text
                 style={[
-                  styles.genderButton,
-                  patientInfo.gender === gender && styles.genderButtonActive,
+                  styles.genderText,
+                  patientInfo.gender === gender && styles.genderTextActive,
                 ]}
-                onPress={() => setPatientInfo({ ...patientInfo, gender })}
               >
-                <Text
-                  style={[
-                    styles.genderText,
-                    patientInfo.gender === gender && styles.genderTextActive,
-                  ]}
-                >
-                  {gender}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+                {gender}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
 
@@ -268,20 +272,33 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: '#297691',
-    padding: 20,
-    paddingTop: 30,
+    backgroundColor: '#053445',
+    padding: 24,
+    paddingTop: 35,
+    paddingBottom: 30,
     alignItems: 'center',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 5,
+    color: '#6DB4CD',
+    marginBottom: 8,
+    letterSpacing: 0.5,
   },
   headerSubtitle: {
-    fontSize: 14,
-    color: '#6DB4CD',
+    fontSize: 15,
+    color: '#FFFFFF',
+    fontWeight: '600',
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
+    opacity: 0.95,
   },
   section: {
     backgroundColor: 'white',
@@ -297,51 +314,45 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#297691',
+    color: '#053445',
     marginBottom: 15,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#6DB4CD',
-    borderRadius: 8,
-    padding: 12,
+    borderWidth: 2,
+    borderColor: '#4B95AF',
+    borderRadius: 10,
+    padding: 14,
     fontSize: 16,
     marginBottom: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#FAFAFA',
     color: '#053445',
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  halfInput: {
-    flex: 0.28,
-    marginRight: 8,
-  },
   genderContainer: {
-    flex: 0.72,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 15,
   },
   genderButton: {
     flex: 1,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#6DB4CD',
-    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderWidth: 2,
+    borderColor: '#4B95AF',
+    borderRadius: 10,
     marginHorizontal: 4,
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: 50,
   },
   genderButtonActive: {
-    backgroundColor: '#297691',
-    borderColor: '#297691',
+    backgroundColor: '#19647F',
+    borderColor: '#19647F',
   },
   genderText: {
-    color: '#4B95AF',
-    fontSize: 13,
+    color: '#19647F',
+    fontSize: 14,
     textAlign: 'center',
+    fontWeight: '600',
   },
   genderTextActive: {
     color: 'white',
@@ -357,10 +368,15 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   addButton: {
-    backgroundColor: '#4B95AF',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
+    backgroundColor: '#19647F',
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+    borderRadius: 10,
+    shadowColor: '#19647F',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   addButtonText: {
     color: 'white',
@@ -375,11 +391,16 @@ const styles = StyleSheet.create({
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#19647F',
+    backgroundColor: '#297691',
     borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     margin: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   chipText: {
     color: 'white',
@@ -402,40 +423,52 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   conditionChip: {
-    borderWidth: 1,
-    borderColor: '#6DB4CD',
+    borderWidth: 2,
+    borderColor: '#4B95AF',
     borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
     margin: 5,
   },
   conditionChipActive: {
-    backgroundColor: '#297691',
-    borderColor: '#297691',
+    backgroundColor: '#19647F',
+    borderColor: '#19647F',
+    shadowColor: '#19647F',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 3,
   },
   conditionText: {
-    color: '#4B95AF',
+    color: '#19647F',
     fontSize: 13,
+    fontWeight: '600',
   },
   conditionTextActive: {
     color: 'white',
     fontWeight: 'bold',
   },
   proceedButton: {
-    backgroundColor: '#297691',
+    backgroundColor: '#053445',
     margin: 15,
-    padding: 18,
-    borderRadius: 12,
+    padding: 20,
+    borderRadius: 15,
     alignItems: 'center',
     marginBottom: 30,
+    shadowColor: '#053445',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 6,
   },
   proceedButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
   buttonDisabled: {
-    backgroundColor: '#6DB4CD',
-    opacity: 0.5,
+    backgroundColor: '#4B95AF',
+    opacity: 0.4,
   },
 });
