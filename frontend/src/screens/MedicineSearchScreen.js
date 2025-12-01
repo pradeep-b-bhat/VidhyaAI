@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,12 +6,13 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
   Alert,
+  Animated,
+  Easing,
 } from 'react-native';
 import axios from 'axios';
 
-const API_URL = 'http://192.168.1.2:8000'; // Backend URL (use IP for mobile devices)
+const API_URL = 'http://192.168.0.116:8000'; // Backend URL (use IP for mobile devices)
 
 export default function MedicineSearchScreen({
   symptoms,
@@ -30,9 +31,34 @@ export default function MedicineSearchScreen({
     timing: '',
   });
 
+  // Animation for pestle
+  const pestleAnim = useRef(new Animated.Value(-20)).current;
+
   useEffect(() => {
     searchMedicines();
   }, []);
+
+  useEffect(() => {
+    if (loading) {
+      // Start mortar and pestle grinding animation
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(pestleAnim, {
+            toValue: 0,
+            duration: 400,
+            easing: Easing.ease,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pestleAnim, {
+            toValue: -20,
+            duration: 400,
+            easing: Easing.ease,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    }
+  }, [loading]);
 
   const searchMedicines = async () => {
     setLoading(true);
@@ -119,13 +145,31 @@ export default function MedicineSearchScreen({
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#297691" />
+        {/* Mortar and Pestle Animation */}
+        <View style={styles.medicinePreparation}>
+          <Text style={styles.mortarIcon}>🥣</Text>
+          <Animated.Text
+            style={[
+              styles.pestleIcon,
+              { transform: [{ translateY: pestleAnim }] },
+            ]}
+          >
+            🥄
+          </Animated.Text>
+        </View>
+
         <Text style={styles.loadingText}>
-          Searching for Ayurvedic medicines...
+          Preparing Ayurvedic Medicines...
         </Text>
         <Text style={styles.loadingSubtext}>
-          AI is analyzing symptoms and conditions
+          🤖 AI is analyzing your symptoms and health conditions
         </Text>
+        <Text style={styles.loadingSubtext2}>
+          Please wait while we find the best remedies
+        </Text>
+
+        {/* Rotating leaf in background */}
+        <Text style={styles.leafBackground}>🌿</Text>
       </View>
     );
   }
@@ -349,17 +393,55 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
+    padding: 20,
+  },
+  medicinePreparation: {
+    position: 'relative',
+    width: 120,
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  mortarIcon: {
+    fontSize: 80,
+    position: 'absolute',
+    bottom: 0,
+  },
+  pestleIcon: {
+    fontSize: 60,
+    position: 'absolute',
+    top: 0,
+    right: 15,
+    transform: [{ rotate: '45deg' }],
+  },
+  leafBackground: {
+    fontSize: 100,
+    position: 'absolute',
+    opacity: 0.08,
+    bottom: 50,
   },
   loadingText: {
     marginTop: 20,
-    fontSize: 18,
+    fontSize: 20,
     color: '#053445',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   loadingSubtext: {
-    marginTop: 10,
-    fontSize: 14,
+    marginTop: 15,
+    fontSize: 15,
+    color: '#19647F',
+    textAlign: 'center',
+    paddingHorizontal: 30,
+  },
+  loadingSubtext2: {
+    marginTop: 8,
+    fontSize: 13,
     color: '#4B95AF',
+    textAlign: 'center',
+    fontStyle: 'italic',
+    paddingHorizontal: 30,
   },
   header: {
     backgroundColor: '#053445',
